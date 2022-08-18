@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:swarabhaas/home/model/jitsee_meet.dart';
 import 'package:swarabhaas/home/widgets/audio_tile_widget.dart';
+import 'package:swarabhaas/utils/alerts.dart';
 
 class AudioCall extends StatefulWidget {
   const AudioCall({Key? key}) : super(key: key);
@@ -19,7 +20,41 @@ class _AudioCallState extends State<AudioCall> {
   }
 
   joinJitseeMeet() async {
-    //_jitsee.joinMeet(room: meetNumber, isAudio: true, isVideo: true);
+    _jitsee.joinMeet(
+        room: _textFieldController.text, isAudio: true, isVideo: true);
+  }
+
+  TextEditingController _textFieldController = TextEditingController();
+
+  Future<void> _joinMeetAlert(BuildContext context) async {
+    return showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text('Enter meet number'),
+          content: TextField(
+            controller: _textFieldController,
+            decoration:
+                InputDecoration(hintText: "Enter 3 digit unique number"),
+          ),
+          actions: <Widget>[
+            FlatButton(
+              child: Text('CANCEL'),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            ),
+            FlatButton(
+              child: Text('OK'),
+              onPressed: () {
+                joinJitseeMeet();
+                Navigator.pop(context);
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 
   @override
@@ -32,26 +67,19 @@ class _AudioCallState extends State<AudioCall> {
             height: mediaquery.size.height * 0.1,
           ),
           const Text("Meet your friends"),
-          ClipRRect(
-            borderRadius: BorderRadius.circular(10.0),
-            child: Image.asset(
-              'assets/images/onboarding.jpg',
-              height: mediaquery.size.height * 0.3,
-              width: mediaquery.size.width * 0.9,
-            ),
-          ),
           FlatButton(
             onPressed: () {
               createJitseeMeet();
             },
             child: Text('MEET'),
           ),
-          // FlatButton(
-          //   onPressed: () {
-          //     JitseeMeet().joinMeet(room: '', isAudio: true, isVideo: true);
-          //   },
-          //   child: Text('Join'),
-          // ),
+          FlatButton(
+            onPressed: () {
+              // AlertClass(title: 'Enter number', alertNum: 1);
+              _joinMeetAlert(context);
+            },
+            child: Text('Join'),
+          ),
         ],
       ),
       backgroundColor: Colors.white,

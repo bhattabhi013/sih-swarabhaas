@@ -84,7 +84,11 @@ void googleSignUp(GoogleSignInProvider auth, BuildContext context) {
       showDialog(
         context: context,
         builder: (BuildContext context) {
-          return AlertClass(title: "Auth Failed", message: value.msg);
+          return AlertClass(
+            title: "Auth Failed",
+            message: value.msg,
+            alertNum: 1,
+          );
         },
       );
     }

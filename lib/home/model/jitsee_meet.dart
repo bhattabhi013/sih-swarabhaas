@@ -10,20 +10,23 @@ class JitseeMeet {
       required bool isAudio,
       required bool isVideo}) async {
     try {
-      FeatureFlag featureFlag = FeatureFlag();
-      featureFlag.welcomePageEnabled = false;
-      featureFlag.resolution = FeatureFlagVideoResolution
-          .MD_RESOLUTION; // Limit video resolution to 360p
+      Map<FeatureFlagEnum, bool> featureFlags = {
+        FeatureFlagEnum.WELCOME_PAGE_ENABLED: true,
+        FeatureFlagEnum.CLOSE_CAPTIONS_ENABLED: true,
+      };
+      // FeatureFlag featureFlag = FeatureFlag();
+      // featureFlag.welcomePageEnabled = true;
+      // featureFlag.closeCaptionsEnabled = true;
+      // featureFlag.resolution = FeatureFlagVideoResolution
+      //     .MD_RESOLUTION; // Limit video resolution to 360p
 
       var options = JitsiMeetingOptions(room: room)
-        // ..serverURL = "https://someHost.com"
-        // ..subject = "Meeting with Gunschu"
         ..userDisplayName = user!.displayName
         ..userEmail = user!.email
-        ..userAvatarURL = user!.photoURL // or .png
+        ..userAvatarURL = user!.photoURL
         ..audioOnly = isAudio
-        ..videoMuted = isVideo;
-      // ..featureFlag = featureFlag;
+        ..videoMuted = isVideo
+        ..featureFlags.addAll(featureFlags);
 
       await JitsiMeet.joinMeeting(options);
     } catch (error) {
