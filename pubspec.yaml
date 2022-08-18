@@ -49,10 +49,11 @@ dependencies:
   cloudinary_public: ^0.11.0
   percent_indicator: ^3.4.0
   gallery_saver: ^2.3.2
-  jitsi_meet:
-    git:
-      url: https://github.com/dispersik/jitsi_meet_fork
-      ref: master
+  jitsi_meet_wrapper: ^0.0.5
+  # jitsi_meet:
+  #   git:
+  #     url: https://github.com/dispersik/jitsi_meet_fork
+  #     ref: master
   # speech_recognition: ^0.3.0+1
 
 dev_dependencies:
