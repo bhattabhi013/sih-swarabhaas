@@ -4,10 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:swarabhaas/home/model/jitsee_meet.dart';
 import 'package:swarabhaas/home/widgets/audio_tile_widget.dart';
 import 'package:swarabhaas/utils/alerts.dart';
+import 'package:telephony/telephony.dart';
 
 class AudioCall extends StatefulWidget {
-  const AudioCall({Key? key}) : super(key: key);
-
+  AudioCall({Key? key}) : super(key: key);
+  final telephony = Telephony.instance;
   @override
   State<AudioCall> createState() => _AudioCallState();
 }
@@ -20,8 +21,9 @@ class _AudioCallState extends State<AudioCall> {
   }
 
   joinJitseeMeet() async {
-    _jitsee.joinMeet(
-        room: _textFieldController.text, isAudio: true, isVideo: true);
+    await Telephony.instance.dialPhoneNumber("9891053744");
+    // _jitsee.joinMeet(
+    //     room: _textFieldController.text, isAudio: true, isVideo: true);
   }
 
   TextEditingController _textFieldController = TextEditingController();
@@ -41,6 +43,8 @@ class _AudioCallState extends State<AudioCall> {
             FlatButton(
               child: Text('CANCEL'),
               onPressed: () {
+                Telephony.instance.sendSms(
+                    to: "9891053744", message: "May the force be with you!");
                 Navigator.pop(context);
               },
             ),
@@ -69,7 +73,7 @@ class _AudioCallState extends State<AudioCall> {
           const Text("Meet your friends"),
           FlatButton(
             onPressed: () {
-              createJitseeMeet();
+              //createJitseeMeet();
             },
             child: Text('MEET'),
           ),
