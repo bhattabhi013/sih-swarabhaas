@@ -6,7 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:percent_indicator/percent_indicator.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:swarabhaas/home/providers/home_provider.dart';
 import 'package:swarabhaas/home/widgets/toggle_button.dart';
 
@@ -26,6 +26,7 @@ class _VideoScreenState extends State<VideoScreen> {
   Widget build(BuildContext context) {
     final homeProvider = Provider.of<HomePageProvider>(context, listen: true);
     final mediaquery = MediaQuery.of(context);
+    final appLocalization = AppLocalizations.of(context);
     return Scaffold(
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -41,10 +42,10 @@ class _VideoScreenState extends State<VideoScreen> {
                 borderRadius: BorderRadius.circular(25)),
             child: Column(
               children: [
-                const Text(
-                  'Upload any video you want the transcription of.',
+                Text(
+                  appLocalization.uploadVideo,
                   textAlign: TextAlign.center,
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontFamily: 'Open-Sauce-Sans',
                     fontSize: 18.0,
                     color: Color.fromARGB(221, 56, 56, 56),
@@ -68,10 +69,10 @@ class _VideoScreenState extends State<VideoScreen> {
             // color: Colors.amberAccent,
             height: mediaquery.size.height * 0.05,
             width: mediaquery.size.height * 0.3,
-            child: const Text(
-              '*Please select the language you want to convert the video in.',
+            child: Text(
+              appLocalization.selectLanguage,
               textAlign: TextAlign.center,
-              style: TextStyle(
+              style: const TextStyle(
                 fontFamily: 'Open-Sauce-Sans',
                 fontSize: 15.0,
                 color: Colors.black87,
@@ -79,7 +80,7 @@ class _VideoScreenState extends State<VideoScreen> {
             ),
           ),
           AnimatedToggle(
-            values: ['English', 'Hindi'],
+            values: [appLocalization.english, appLocalization.hindi],
             onToggleCallback: (value) {
               setState(() {
                 _toggleValue = value;
@@ -106,9 +107,9 @@ class _VideoScreenState extends State<VideoScreen> {
                         onPressed: () => getVideo(homeProvider),
                         icon: const Icon(Icons.cloud_download_outlined,
                             color: Colors.white),
-                        label: const Text(
-                          ' Download',
-                          style: TextStyle(
+                        label: Text(
+                          appLocalization.download,
+                          style: const TextStyle(
                             fontFamily: 'Open-Sauce-Sans',
                             fontSize: 20.0,
                             color: Colors.white,
@@ -132,9 +133,9 @@ class _VideoScreenState extends State<VideoScreen> {
                             onPressed: () => sendVideo(homeProvider),
                             icon: const Icon(Icons.cloud_upload_outlined,
                                 color: Colors.white),
-                            label: const Text(
-                              ' Upload',
-                              style: TextStyle(
+                            label: Text(
+                              appLocalization.uploadVideo,
+                              style: const TextStyle(
                                 fontFamily: 'Open-Sauce-Sans',
                                 fontSize: 20.0,
                                 color: Colors.white,

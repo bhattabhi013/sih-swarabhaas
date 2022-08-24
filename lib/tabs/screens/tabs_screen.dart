@@ -7,6 +7,8 @@ import 'package:swarabhaas/home/screens/audioCall_Screen.dart';
 import 'package:swarabhaas/home/screens/home.dart';
 import 'package:swarabhaas/home/screens/video_screen.dart';
 import 'package:swarabhaas/login/providers/google_auth_provider.dart';
+import 'package:swarabhaas/tabs/provider/localProvider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class TabsScreen extends StatefulWidget {
   const TabsScreen();
@@ -38,6 +40,8 @@ class _TabsScreenState extends State<TabsScreen> {
   Widget build(BuildContext context) {
     final googleAuth = Provider.of<GoogleSignInProvider>(context);
     final mediaquery = MediaQuery.of(context);
+    var selectedLocale = Localizations.localeOf(context).toString();
+    final appLocalizations = AppLocalizations.of(context);
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
@@ -46,10 +50,10 @@ class _TabsScreenState extends State<TabsScreen> {
         title: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            const Text(
-              'Hi👋',
+            Text(
+              appLocalizations.hi + '👋',
               softWrap: true,
-              style: TextStyle(
+              style: const TextStyle(
                 fontFamily: 'Open-Sauce-Sans',
                 color: Colors.black,
               ),
@@ -67,13 +71,21 @@ class _TabsScreenState extends State<TabsScreen> {
           ],
         ),
         actions: [
-          ClipRRect(
-            borderRadius: BorderRadius.circular(1.0),
-            child: SvgPicture.asset(
-              'assets/images/lang.svg',
-              fit: BoxFit.cover,
-              width: mediaquery.size.width * 0.1,
-              height: mediaquery.size.height * 0.1,
+          InkWell(
+            onTap: () {
+              final provider =
+                  Provider.of<LocaleProvider>(context, listen: false);
+
+              provider.set();
+            },
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(1.0),
+              child: SvgPicture.asset(
+                'assets/images/lang.svg',
+                fit: BoxFit.cover,
+                width: mediaquery.size.width * 0.1,
+                height: mediaquery.size.height * 0.1,
+              ),
             ),
           ),
           InkWell(
@@ -124,32 +136,32 @@ class _TabsScreenState extends State<TabsScreen> {
             selectedItemColor: Colors.red,
             currentIndex: _SelectedPageIndex,
             type: BottomNavigationBarType.fixed,
-            items: const [
+            items: [
               BottomNavigationBarItem(
-                  icon: Padding(
+                  icon: const Padding(
                     padding: EdgeInsets.fromLTRB(0.0, 5.0, 0.0, 0.0),
                     child: Icon(
                       Icons.home_outlined,
                     ),
                   ),
-                  label: "Home"),
+                  label: appLocalizations.home),
               BottomNavigationBarItem(
-                icon: Padding(
+                icon: const Padding(
                   padding: EdgeInsets.fromLTRB(0.0, 5.0, 0.0, 0.0),
                   child: Icon(
                     Icons.videocam_outlined,
                   ),
                 ),
-                label: "Video",
+                label: appLocalizations.video,
               ),
               BottomNavigationBarItem(
-                icon: Padding(
+                icon: const Padding(
                   padding: EdgeInsets.fromLTRB(0.0, 5.0, 0.0, 0.0),
                   child: Icon(
                     Icons.phone_in_talk_outlined,
                   ),
                 ),
-                label: "Audio",
+                label: appLocalizations.audio,
               ),
             ],
           ),
@@ -157,6 +169,8 @@ class _TabsScreenState extends State<TabsScreen> {
       ),
     );
   }
+
+  void changeLang() {}
 
   void signOut(GoogleSignInProvider gAuth) {
     if (user!.providerData[0].providerId == "google.com") {

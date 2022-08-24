@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../../utils/alerts.dart';
 import '../providers/google_auth_provider.dart';
 
@@ -12,6 +12,7 @@ class LoginWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final googleAuth = Provider.of<GoogleSignInProvider>(context);
     final mediaquery = MediaQuery.of(context);
+    final appLocalization = AppLocalizations.of(context);
     return Container(
       height: mediaquery.size.height * 1,
       width: mediaquery.size.width * 1,
@@ -62,7 +63,7 @@ class LoginWidget extends StatelessWidget {
                       ),
                     ),
                     SizedBox(width: 12),
-                    Text('Login with Google'),
+                    Text(appLocalization.loginWithGoogle),
                     SizedBox(width: 12),
                     Icon(Icons.arrow_right_alt_rounded),
                   ],
