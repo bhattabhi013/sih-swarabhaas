@@ -12,7 +12,7 @@ class HomePageProvider extends ChangeNotifier {
   bool _isCaptioning = false;
   late double _uploadingPercentage = 0.0;
   bool _isHindi = false;
-  late String _fileUrl;
+  String? _fileUrl;
   bool _showDownload = false;
 
   toggleIsHindi() {
@@ -61,19 +61,21 @@ class HomePageProvider extends ChangeNotifier {
             resourceType: CloudinaryResourceType.Video),
         onProgress: (count, total) => {setUploadPercent(count / total)},
       );
-      // if (toggleValue == 0) {
-      //   _isHindi = false;
-      // } else {
-      //   _isHindi = true;
-      // }
-      print("resp" + response.secureUrl);
-      _fileUrl = response.secureUrl;
-      var body1 = {"file_url": response.secureUrl, "target_lang": val};
-      final uri = Uri.parse("http://20.244.27.133/video");
-      final headers = {HttpHeaders.contentTypeHeader: 'application/json'};
-      final apiResponse =
-          await http.post(uri, headers: headers, body: json.encode(body1));
 
+      print("resp" + response.secureUrl);
+      var headers = {
+        'accept': 'application/json',
+        'content-type': 'application/x-www-form-urlencoded',
+      };
+      _fileUrl = response.secureUrl;
+      var params = {
+        'file_url': response.secureUrl,
+        'target_lang': val,
+      };
+      var query = params.entries.map((p) => '${p.key}=${p.value}').join('&');
+
+      var url = Uri.parse('http://20.244.27.133/video?$query');
+      var apiResponse = await http.post(url, headers: headers);
       if (apiResponse.statusCode == 200) {
         var jsonResponse =
             convert.jsonDecode(apiResponse.body) as Map<String, dynamic>;
@@ -92,14 +94,19 @@ class HomePageProvider extends ChangeNotifier {
     }
   }
 
-  void receiveVideo() async {
-    var queryParameters = {
-      "secure_url": _fileUrl,
-      // "is_hindi": getIsHindi().toString()
+  void receiveVideo(String lang) async {
+    var headers = {
+      'accept': 'application/json',
     };
-    final uri = Uri.http('http://20.244.27.133', '/video', queryParameters);
-    final headers = {HttpHeaders.contentTypeHeader: 'application/json'};
-    final apiResponse = await http.get(uri, headers: headers);
+
+    var params = {
+      'secure_url': _fileUrl,
+      'target_lang': lang,
+    };
+    var query = params.entries.map((p) => '${p.key}=${p.value}').join('&');
+
+    var url = Uri.parse('http://20.244.27.133/video?$query');
+    var apiResponse = await http.get(url, headers: headers);
     if (apiResponse.statusCode == 200) {
       var jsonResponse =
           convert.jsonDecode(apiResponse.body) as Map<String, dynamic>;

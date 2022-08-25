@@ -207,6 +207,6 @@ class _VideoScreenState extends State<VideoScreen> {
   }
 
   getVideo(HomePageProvider homeProvider) {
-    homeProvider.receiveVideo();
+    homeProvider.receiveVideo(lang);
   }
 }
