@@ -43,6 +43,12 @@ class _AudioCallState extends State<AudioCall> {
     Telephony.instance.dialPhoneNumber('${entry.number}');
   }
 
+  joinJitseeMeet() async {
+    //_jitsee.joinMeet(room: meetNumber, isAudio: true, isVideo: true);
+    _jitsee.joinMeet(
+        room: _textFieldController.text, isAudio: true, isVideo: true);
+  }
+
   TextEditingController _textFieldController = TextEditingController();
 
   Future<void> _joinMeetAlert(
@@ -59,17 +65,15 @@ class _AudioCallState extends State<AudioCall> {
           ),
           actions: <Widget>[
             FlatButton(
-              child: Text(appLocalizations.cancel),
+              child: Text('CANCEL'),
               onPressed: () {
-                Telephony.instance.sendSms(
-                    to: "9891053744", message: "May the force be with you!");
                 Navigator.pop(context);
               },
             ),
             FlatButton(
-              child: Text(appLocalizations.okText),
+              child: Text('OK'),
               onPressed: () {
-                //joinJitseeMeet();
+                joinJitseeMeet();
                 Navigator.pop(context);
               },
             ),
@@ -106,6 +110,24 @@ class _AudioCallState extends State<AudioCall> {
       body: SingleChildScrollView(
         child: Column(
           children: <Widget>[
+            Row(
+              mainAxisAlignment: MainAxisAlignment
+                  .spaceEvenly, // use whichever suits your need
+              children: [
+                ElevatedButton(
+                  child: const Text('Join Meet'),
+                  onPressed: () {
+                    _joinMeetAlert(context, appLocalization);
+                  },
+                ),
+                ElevatedButton(
+                  child: const Text('Create Meet'),
+                  onPressed: () {
+                    createJitseeMeet();
+                  },
+                ),
+              ],
+            ),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Column(children: children),

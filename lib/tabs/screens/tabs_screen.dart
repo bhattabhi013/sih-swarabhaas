@@ -8,6 +8,7 @@ import 'package:swarabhaas/home/screens/video_screen.dart';
 import 'package:swarabhaas/login/providers/google_auth_provider.dart';
 import 'package:swarabhaas/tabs/provider/localProvider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class TabsScreen extends StatefulWidget {
   const TabsScreen();
@@ -16,7 +17,6 @@ class TabsScreen extends StatefulWidget {
 }
 
 class _TabsScreenState extends State<TabsScreen> {
-  
   final user = FirebaseAuth.instance.currentUser;
   late List<Widget> _pages;
   int _SelectedPageIndex = 0;
@@ -34,6 +34,15 @@ class _TabsScreenState extends State<TabsScreen> {
       AudioCall(),
     ];
     super.initState();
+  }
+
+  _launchURL() async {
+    var url = Uri.parse("https://swarabhaas.netlify.app/");
+    if (await canLaunchUrl(url)) {
+      await launchUrl(url);
+    } else {
+      throw 'Could not launch $url';
+    }
   }
 
   @override
@@ -77,7 +86,6 @@ class _TabsScreenState extends State<TabsScreen> {
             onTap: () {
               final provider =
                   Provider.of<LocaleProvider>(context, listen: false);
-
               provider.set();
             },
             child: ClipRRect(
@@ -87,6 +95,18 @@ class _TabsScreenState extends State<TabsScreen> {
                 fit: BoxFit.cover,
                 width: mediaquery.size.width * 0.1,
                 height: mediaquery.size.height * 0.1,
+              ),
+            ),
+          ),
+          InkWell(
+            onTap: () => _launchURL(),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(1.0),
+              child: Image.asset(
+                'assets/images/isl-icon.png',
+                fit: BoxFit.cover,
+                width: mediaquery.size.width * 0.15,
+                height: mediaquery.size.height * 0.2,
               ),
             ),
           ),
