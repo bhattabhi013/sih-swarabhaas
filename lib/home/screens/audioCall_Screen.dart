@@ -3,6 +3,7 @@ import 'dart:math' as math;
 import 'package:call_log/call_log.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_initicon/flutter_initicon.dart';
+import 'package:jitsi_meet_wrapper/jitsi_meet_wrapper.dart';
 import 'package:swarabhaas/home/model/jitsee_meet.dart';
 import 'package:swarabhaas/home/widgets/audio_tile_widget.dart';
 import 'package:swarabhaas/utils/alerts.dart';
@@ -28,7 +29,7 @@ class _AudioCallState extends State<AudioCall> {
   _getDialScreen() async {
     final Iterable<CallLogEntry> result = await CallLog.query();
     setState(() {
-      _callLogEntries = result;
+      _callLogEntries = result.take(10);
     });
   }
 
@@ -36,7 +37,9 @@ class _AudioCallState extends State<AudioCall> {
 
   createJitseeMeet() async {
     String meetNumber = (Random().nextInt(1000) + 100).toString();
-    _jitsee.joinMeet(room: meetNumber, isAudio: true, isVideo: true);
+    // _jitsee.joinMeet(room: meetNumber, isAudio: true, isVideo: true);
+    var options = JitsiMeetingOptions(roomNameOrUrl: meetNumber);
+    await JitsiMeetWrapper.joinMeeting(options: options);
   }
 
   callDial(CallLogEntry entry) async {
@@ -45,8 +48,11 @@ class _AudioCallState extends State<AudioCall> {
 
   joinJitseeMeet() async {
     //_jitsee.joinMeet(room: meetNumber, isAudio: true, isVideo: true);
-    _jitsee.joinMeet(
-        room: _textFieldController.text, isAudio: true, isVideo: true);
+    // _jitsee.joinMeet(
+    //     room: _textFieldController.text, isAudio: true, isVideo: true);
+
+    var options = JitsiMeetingOptions(roomNameOrUrl: _textFieldController.text);
+    await JitsiMeetWrapper.joinMeeting(options: options);
   }
 
   TextEditingController _textFieldController = TextEditingController();

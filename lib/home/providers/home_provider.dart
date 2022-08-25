@@ -54,21 +54,21 @@ class HomePageProvider extends ChangeNotifier {
 
   final cloudinary = CloudinaryPublic('mait', 'rcbgzwxf', cache: false);
 
-  Future<String?> sendVideo(XFile video, int toggleValue) async {
+  Future<String?> sendVideo(XFile video, String val) async {
     try {
       CloudinaryResponse response = await cloudinary.uploadFile(
         CloudinaryFile.fromFile(video.path,
             resourceType: CloudinaryResourceType.Video),
         onProgress: (count, total) => {setUploadPercent(count / total)},
       );
-      if (toggleValue == 0) {
-        _isHindi = false;
-      } else {
-        _isHindi = true;
-      }
+      // if (toggleValue == 0) {
+      //   _isHindi = false;
+      // } else {
+      //   _isHindi = true;
+      // }
       print("resp" + response.secureUrl);
       _fileUrl = response.secureUrl;
-      var body1 = {"file_url": response.secureUrl, "is_hindi": getIsHindi()};
+      var body1 = {"file_url": response.secureUrl, "target_lang": val};
       final uri = Uri.parse("http://20.244.27.133/video");
       final headers = {HttpHeaders.contentTypeHeader: 'application/json'};
       final apiResponse =
@@ -95,7 +95,7 @@ class HomePageProvider extends ChangeNotifier {
   void receiveVideo() async {
     var queryParameters = {
       "secure_url": _fileUrl,
-      "is_hindi": getIsHindi().toString()
+      // "is_hindi": getIsHindi().toString()
     };
     final uri = Uri.http('http://20.244.27.133', '/video', queryParameters);
     final headers = {HttpHeaders.contentTypeHeader: 'application/json'};

@@ -20,7 +20,8 @@ class VideoScreen extends StatefulWidget {
 class _VideoScreenState extends State<VideoScreen> {
   bool _isVideoAvailable = false;
   late XFile _video;
-  int _toggleValue = 0;
+  // int _toggleValue = 0;
+  String lang = "Select language";
 
   @override
   Widget build(BuildContext context) {
@@ -80,18 +81,23 @@ class _VideoScreenState extends State<VideoScreen> {
             ),
           ),
           DropdownButton(
+            hint: Text('Select language'),
+            //value: ,
             items: const [
               DropdownMenuItem(child: Text('English'), value: 'en'),
               DropdownMenuItem(child: Text('Hindi'), value: 'hi'),
-              DropdownMenuItem(child: Text('English'), value: 'en'),
-              DropdownMenuItem(child: Text('English'), value: 'en'),
-              DropdownMenuItem(child: Text('English'), value: 'en'),
-              DropdownMenuItem(child: Text('English'), value: 'en'),
-              DropdownMenuItem(child: Text('English'), value: 'en'),
-              DropdownMenuItem(child: Text('English'), value: 'en'),
-              DropdownMenuItem(child: Text('English'), value: 'en'),
+              DropdownMenuItem(child: Text('Gujarati'), value: 'gu'),
+              DropdownMenuItem(child: Text('Bengali'), value: 'bn'),
+              DropdownMenuItem(child: Text('Tamil'), value: 'ta'),
+              DropdownMenuItem(child: Text('Telugu'), value: 'te'),
+              DropdownMenuItem(child: Text('Malayalam'), value: 'ml'),
+              DropdownMenuItem(child: Text('Kannada'), value: 'kn'),
+              DropdownMenuItem(child: Text('Odia'), value: 'or'),
+              DropdownMenuItem(child: Text('Punjabi'), value: 'pa'),
             ],
-            onChanged: (Object? value) {},
+            onChanged: (Object? value) {
+              lang = value.toString();
+            },
           ),
 
           // AnimatedToggle(
@@ -192,9 +198,11 @@ class _VideoScreenState extends State<VideoScreen> {
     });
   }
 
-  sendVideo(HomePageProvider homeProvider) {
+  sendVideo(
+    HomePageProvider homeProvider,
+  ) {
     homeProvider.setIsCaptioning(true);
-    homeProvider.sendVideo(_video, _toggleValue);
+    homeProvider.sendVideo(_video, lang);
     //homeProvider.receiveVideo();
   }
 
