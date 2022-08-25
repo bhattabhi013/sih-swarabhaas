@@ -1,5 +1,4 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
@@ -17,6 +16,7 @@ class TabsScreen extends StatefulWidget {
 }
 
 class _TabsScreenState extends State<TabsScreen> {
+  
   final user = FirebaseAuth.instance.currentUser;
   late List<Widget> _pages;
   int _SelectedPageIndex = 0;
@@ -51,21 +51,23 @@ class _TabsScreenState extends State<TabsScreen> {
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             Text(
-              appLocalizations.hi + '👋',
+              appLocalizations.hi,
               softWrap: true,
               style: const TextStyle(
                 fontFamily: 'Open-Sauce-Sans',
                 color: Colors.black,
               ),
             ),
-            Text(
-              ' ${user?.displayName.toString()}',
-              softWrap: true,
-              style: const TextStyle(
-                fontFamily: 'Open-Sauce-Sans',
-                fontSize: 20.0,
-                color: Colors.black,
-                fontWeight: FontWeight.bold,
+            Flexible(
+              child: Text(
+                ' ${user?.displayName.toString()}',
+                overflow: TextOverflow.ellipsis,
+                style: const TextStyle(
+                  fontFamily: 'Open-Sauce-Sans',
+                  fontSize: 20.0,
+                  color: Colors.black,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
           ],

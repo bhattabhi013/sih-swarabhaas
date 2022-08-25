@@ -79,17 +79,32 @@ class _VideoScreenState extends State<VideoScreen> {
               ),
             ),
           ),
-          AnimatedToggle(
-            values: [appLocalization.english, appLocalization.hindi],
-            onToggleCallback: (value) {
-              setState(() {
-                _toggleValue = value;
-              });
-            },
-            buttonColor: Color.fromARGB(255, 251, 84, 7),
-            backgroundColor: Color.fromARGB(255, 209, 209, 214),
-            textColor: const Color(0xFFFFFFFF),
+          DropdownButton(
+            items: const [
+              DropdownMenuItem(child: Text('English'), value: 'en'),
+              DropdownMenuItem(child: Text('Hindi'), value: 'hi'),
+              DropdownMenuItem(child: Text('English'), value: 'en'),
+              DropdownMenuItem(child: Text('English'), value: 'en'),
+              DropdownMenuItem(child: Text('English'), value: 'en'),
+              DropdownMenuItem(child: Text('English'), value: 'en'),
+              DropdownMenuItem(child: Text('English'), value: 'en'),
+              DropdownMenuItem(child: Text('English'), value: 'en'),
+              DropdownMenuItem(child: Text('English'), value: 'en'),
+            ],
+            onChanged: (Object? value) {},
           ),
+
+          // AnimatedToggle(
+          //   values: [appLocalization.english, appLocalization.hindi],
+          //   onToggleCallback: (value) {
+          //     setState(() {
+          //       _toggleValue = value;
+          //     });
+          //   },
+          //   buttonColor: Color.fromARGB(255, 251, 84, 7),
+          //   backgroundColor: Color.fromARGB(255, 209, 209, 214),
+          //   textColor: const Color(0xFFFFFFFF),
+          // ),
           Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.spaceAround,
