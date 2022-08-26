@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'dart:js';
 import 'package:cloudinary_public/cloudinary_public.dart';
 import 'package:flutter/material.dart';
 import 'package:gallery_saver/gallery_saver.dart';
@@ -112,10 +113,28 @@ class HomePageProvider extends ChangeNotifier {
           convert.jsonDecode(apiResponse.body) as Map<String, dynamic>;
       String path = jsonResponse['secure_url'].toString();
       print(path);
-      GallerySaver.saveVideo(path).then((value) => print(value));
+      GallerySaver.saveVideo(path).then((value) => {
+            if (value != null && value) {showSnack(context)}
+          });
     } else {
       print('Request failed with status: ${apiResponse.statusCode}.');
     }
+  }
+
+  void showSnack(BuildContext context) {
+    final snackBar = SnackBar(
+      content: const Text('Yay! A SnackBar!'),
+      action: SnackBarAction(
+        label: 'Undo',
+        onPressed: () {
+          // Some code to undo the change.
+        },
+      ),
+    );
+
+    // Find the ScaffoldMessenger in the widget tree
+    // and use it to show a SnackBar.
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 
   void toggleButton() {

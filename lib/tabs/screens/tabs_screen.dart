@@ -8,6 +8,7 @@ import 'package:swarabhaas/home/screens/video_screen.dart';
 import 'package:swarabhaas/login/providers/google_auth_provider.dart';
 import 'package:swarabhaas/tabs/provider/localProvider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:swarabhaas/utils/webViewCont.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class TabsScreen extends StatefulWidget {
@@ -43,6 +44,15 @@ class _TabsScreenState extends State<TabsScreen> {
     } else {
       throw 'Could not launch $url';
     }
+  }
+
+  void _handleURLButtonPress(BuildContext context, String url) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => WebViewContainer(url),
+      ),
+    );
   }
 
   @override
@@ -99,7 +109,8 @@ class _TabsScreenState extends State<TabsScreen> {
             ),
           ),
           InkWell(
-            onTap: () => _launchURL(),
+            onTap: () => _handleURLButtonPress(
+                context, "https://swarabhaas.netlify.app/"),
             child: ClipRRect(
               borderRadius: BorderRadius.circular(1.0),
               child: Image.asset(

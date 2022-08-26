@@ -21,7 +21,7 @@ class _VideoScreenState extends State<VideoScreen> {
   bool _isVideoAvailable = false;
   late XFile _video;
   // int _toggleValue = 0;
-  String lang = "Select language";
+  String lang = 'English';
 
   @override
   Widget build(BuildContext context) {
@@ -82,7 +82,7 @@ class _VideoScreenState extends State<VideoScreen> {
           ),
           DropdownButton(
             hint: Text('Select language'),
-            //value: ,
+            //value: lang,
             items: const [
               DropdownMenuItem(child: Text('English'), value: 'en'),
               DropdownMenuItem(child: Text('Hindi'), value: 'hi'),
@@ -99,17 +99,6 @@ class _VideoScreenState extends State<VideoScreen> {
               lang = value.toString();
             },
           ),
-
-          // AnimatedToggle(
-          //   values: [appLocalization.english, appLocalization.hindi],
-          //   onToggleCallback: (value) {
-          //     setState(() {
-          //       _toggleValue = value;
-          //     });
-          //   },
-          //   buttonColor: Color.fromARGB(255, 251, 84, 7),
-          //   backgroundColor: Color.fromARGB(255, 209, 209, 214),
-          //   textColor: const Color(0xFFFFFFFF),
           // ),
           Column(
             crossAxisAlignment: CrossAxisAlignment.center,
