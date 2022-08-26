@@ -107,12 +107,45 @@ class HomePageProvider extends ChangeNotifier {
 
     var url = Uri.parse('http://20.244.27.133/video?$query');
     var apiResponse = await http.get(url, headers: headers);
-    Navigator.of(context).pop();
+    // Navigator.of(context).pop();
     if (apiResponse.statusCode == 200) {
       var jsonResponse =
           convert.jsonDecode(apiResponse.body) as Map<String, dynamic>;
       String path = jsonResponse['secure_url'].toString();
       print(path);
+      GallerySaver.saveVideo(path).then((value) => {
+            if (value != null && value)
+              {
+                showSnack(
+                    context, "Video downloaded successfully", Colors.green),
+                // receiveSubs(context, lang)
+              }
+            else
+              {showSnack(context, "OOPS! Try again", Colors.red)}
+          });
+    } else {
+      print('Request failed with status: ${apiResponse.statusCode}.');
+    }
+  }
+
+  void receiveSubs(BuildContext context, String lang) async {
+    var headers = {
+      'accept': 'application/json',
+    };
+
+    var params = {
+      'secure_url': '_fileUrl',
+      'target_lang': lang,
+    };
+    var query = params.entries.map((p) => '${p.key}=${p.value}').join('&');
+
+    var url = Uri.parse('http://20.244.27.133/transcript?$query');
+    var apiResponse = await http.get(url, headers: headers);
+    if (apiResponse.statusCode == 200) {
+      var jsonResponse =
+          convert.jsonDecode(apiResponse.body) as Map<String, dynamic>;
+      print(" resp: " + jsonResponse.toString());
+      String path = jsonResponse['secure_url'].toString();
       GallerySaver.saveVideo(path).then((value) => {
             if (value != null && value)
               {
@@ -170,6 +203,6 @@ class HomePageProvider extends ChangeNotifier {
     await Future.delayed(const Duration(seconds: 3));
 
     // Close the dialog programmatically
-    Navigator.of(context).pop();
+    //Navigator.of(context).pop();
   }
 }
