@@ -115,9 +115,8 @@ class _TabsScreenState extends State<TabsScreen> {
               borderRadius: BorderRadius.circular(1.0),
               child: Image.asset(
                 'assets/images/isl-icon.png',
-                fit: BoxFit.cover,
-                width: mediaquery.size.width * 0.15,
-                height: mediaquery.size.height * 0.2,
+                width: mediaquery.size.width * 0.08,
+                height: mediaquery.size.height * 0.04,
               ),
             ),
           ),

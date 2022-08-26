@@ -52,14 +52,14 @@ class HomePageProvider extends ChangeNotifier {
 
   final cloudinary = CloudinaryPublic('mait', 'rcbgzwxf', cache: false);
 
-  Future<String?> sendVideo(XFile video, String val) async {
+  Future<String?> sendVideo(XFile video, String val, BuildContext ctx) async {
     try {
       CloudinaryResponse response = await cloudinary.uploadFile(
         CloudinaryFile.fromFile(video.path,
             resourceType: CloudinaryResourceType.Video),
         onProgress: (count, total) => {setUploadPercent(count / total)},
       );
-
+      _fetchData(ctx);
       print("resp" + response.secureUrl);
       var headers = {
         'accept': 'application/json',
@@ -82,7 +82,8 @@ class HomePageProvider extends ChangeNotifier {
         print('Request failed with status: ${apiResponse.statusCode}.');
       }
       setIsCaptioning(false);
-      Future.delayed(Duration(seconds: 50), () {
+      // Navigator.of(ctx).pop();
+      Future.delayed(Duration(seconds: 30), () {
         set_showDownload(true);
       });
       setUploadPercent(0.0);
@@ -93,6 +94,7 @@ class HomePageProvider extends ChangeNotifier {
   }
 
   void receiveVideo(String lang, BuildContext context) async {
+    _fetchData(context);
     var headers = {
       'accept': 'application/json',
     };
@@ -105,6 +107,7 @@ class HomePageProvider extends ChangeNotifier {
 
     var url = Uri.parse('http://20.244.27.133/video?$query');
     var apiResponse = await http.get(url, headers: headers);
+    Navigator.of(context).pop();
     if (apiResponse.statusCode == 200) {
       var jsonResponse =
           convert.jsonDecode(apiResponse.body) as Map<String, dynamic>;
@@ -117,7 +120,7 @@ class HomePageProvider extends ChangeNotifier {
                     context, "Video downloaded successfully", Colors.green)
               }
             else
-              {showSnack(context, "OOPS! Try again", Colors.green)}
+              {showSnack(context, "OOPS! Try again", Colors.red)}
           });
     } else {
       print('Request failed with status: ${apiResponse.statusCode}.');
@@ -128,20 +131,45 @@ class HomePageProvider extends ChangeNotifier {
     const snackBar = SnackBar(
       content: Text('Video downloaded successfully'),
       backgroundColor: Colors.green,
-      // action: SnackBarAction(
-      //   label: 'Undo',
-      //   onPressed: () {
-      //     // Some code to undo the change.
-      //   },
-      // ),
     );
-
-    // Find the ScaffoldMessenger in the widget tree
-    // and use it to show a SnackBar.
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 
   void toggleButton() {
     // remove set state from animated button and add provider
+  }
+
+  void _fetchData(BuildContext context) async {
+    // show the loading dialog
+    showDialog(
+        // The user CANNOT close this dialog  by pressing outsite it
+        barrierDismissible: false,
+        context: context,
+        builder: (_) {
+          return Dialog(
+            // The background color
+            backgroundColor: Colors.white,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 20),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: const [
+                  // The loading indicator
+                  CircularProgressIndicator(),
+                  SizedBox(
+                    height: 15,
+                  ),
+                  // Some text
+                  Text('Loading...')
+                ],
+              ),
+            ),
+          );
+        });
+
+    await Future.delayed(const Duration(seconds: 3));
+
+    // Close the dialog programmatically
+    Navigator.of(context).pop();
   }
 }

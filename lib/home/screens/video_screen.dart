@@ -21,7 +21,7 @@ class _VideoScreenState extends State<VideoScreen> {
   bool _isVideoAvailable = false;
   late XFile _video;
   // int _toggleValue = 0;
-  String lang = 'English';
+  String lang = 'en';
 
   @override
   Widget build(BuildContext context) {
@@ -82,7 +82,7 @@ class _VideoScreenState extends State<VideoScreen> {
           ),
           DropdownButton(
             hint: Text('Select language'),
-            //value: lang,
+            value: lang,
             items: const [
               DropdownMenuItem(child: Text('English'), value: 'en'),
               DropdownMenuItem(child: Text('Hindi'), value: 'hi'),
@@ -95,8 +95,10 @@ class _VideoScreenState extends State<VideoScreen> {
               DropdownMenuItem(child: Text('Odia'), value: 'or'),
               DropdownMenuItem(child: Text('Punjabi'), value: 'pa'),
             ],
-            onChanged: (Object? value) {
-              lang = value.toString();
+            onChanged: (value) {
+              setState(() {
+                lang = value.toString();
+              });
             },
           ),
           // ),
@@ -140,7 +142,7 @@ class _VideoScreenState extends State<VideoScreen> {
                           ),
                           child: Center(
                               child: TextButton.icon(
-                            onPressed: () => sendVideo(homeProvider),
+                            onPressed: () => sendVideo(homeProvider, context),
                             icon: const Icon(Icons.cloud_upload_outlined,
                                 color: Colors.white),
                             label: Text(
@@ -187,11 +189,9 @@ class _VideoScreenState extends State<VideoScreen> {
     });
   }
 
-  sendVideo(
-    HomePageProvider homeProvider,
-  ) {
+  sendVideo(HomePageProvider homeProvider, BuildContext ctx) {
     homeProvider.setIsCaptioning(true);
-    homeProvider.sendVideo(_video, lang);
+    homeProvider.sendVideo(_video, lang, ctx);
     //homeProvider.receiveVideo();
   }
 

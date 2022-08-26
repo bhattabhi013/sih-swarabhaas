@@ -38,7 +38,8 @@ class _AudioCallState extends State<AudioCall> {
   createJitseeMeet() async {
     String meetNumber = (Random().nextInt(1000) + 100).toString();
     // _jitsee.joinMeet(room: meetNumber, isAudio: true, isVideo: true);
-    var options = JitsiMeetingOptions(roomNameOrUrl: meetNumber);
+    var options = JitsiMeetingOptions(
+        roomNameOrUrl: 'https://jitsi.swarabhas.tech/' + meetNumber);
     await JitsiMeetWrapper.joinMeeting(options: options);
   }
 
@@ -51,7 +52,9 @@ class _AudioCallState extends State<AudioCall> {
     // _jitsee.joinMeet(
     //     room: _textFieldController.text, isAudio: true, isVideo: true);
 
-    var options = JitsiMeetingOptions(roomNameOrUrl: _textFieldController.text);
+    var options = JitsiMeetingOptions(
+        roomNameOrUrl:
+            'https://jitsi.swarabhas.tech/' + _textFieldController.text);
     await JitsiMeetWrapper.joinMeeting(options: options);
   }
 
