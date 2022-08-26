@@ -114,7 +114,7 @@ class _VideoScreenState extends State<VideoScreen> {
                       ),
                       child: Center(
                           child: TextButton.icon(
-                        onPressed: () => getVideo(homeProvider),
+                        onPressed: () => getVideo(homeProvider, context),
                         icon: const Icon(Icons.cloud_download_outlined,
                             color: Colors.white),
                         label: Text(
@@ -195,7 +195,7 @@ class _VideoScreenState extends State<VideoScreen> {
     //homeProvider.receiveVideo();
   }
 
-  getVideo(HomePageProvider homeProvider) {
-    homeProvider.receiveVideo(lang);
+  getVideo(HomePageProvider homeProvider, BuildContext context) {
+    homeProvider.receiveVideo(lang, context);
   }
 }
