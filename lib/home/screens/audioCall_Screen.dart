@@ -8,6 +8,7 @@ import 'package:swarabhaas/home/model/jitsee_meet.dart';
 import 'package:swarabhaas/home/widgets/audio_tile_widget.dart';
 import 'package:swarabhaas/utils/alerts.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:swarabhaas/utils/webViewCont.dart';
 import 'package:telephony/telephony.dart';
 
 class AudioCall extends StatefulWidget {
@@ -44,7 +45,7 @@ class _AudioCallState extends State<AudioCall> {
   }
 
   callDial(CallLogEntry entry) async {
-    Telephony.instance.dialPhoneNumber('${entry.number}');
+    Telephony.instance.dialPhoneNumber('+16304541667');
   }
 
   joinJitseeMeet() async {
@@ -59,6 +60,15 @@ class _AudioCallState extends State<AudioCall> {
   }
 
   TextEditingController _textFieldController = TextEditingController();
+
+  void _handleURLButtonPress(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => WebViewContainer(''),
+      ),
+    );
+  }
 
   Future<void> _joinMeetAlert(
       BuildContext context, AppLocalizations appLocalizations) async {
@@ -133,6 +143,12 @@ class _AudioCallState extends State<AudioCall> {
                   child: const Text('Create Meet'),
                   onPressed: () {
                     createJitseeMeet();
+                  },
+                ),
+                ElevatedButton(
+                  child: const Text('RTT'),
+                  onPressed: () {
+                    _handleURLButtonPress(context);
                   },
                 ),
               ],

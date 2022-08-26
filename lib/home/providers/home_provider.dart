@@ -59,7 +59,6 @@ class HomePageProvider extends ChangeNotifier {
             resourceType: CloudinaryResourceType.Video),
         onProgress: (count, total) => {setUploadPercent(count / total)},
       );
-      _fetchData(ctx);
       print("resp" + response.secureUrl);
       var headers = {
         'accept': 'application/json',
@@ -84,6 +83,7 @@ class HomePageProvider extends ChangeNotifier {
       setIsCaptioning(false);
       // Navigator.of(ctx).pop();
       Future.delayed(Duration(seconds: 30), () {
+        //_fetchData(ctx);
         set_showDownload(true);
       });
       setUploadPercent(0.0);
@@ -94,7 +94,7 @@ class HomePageProvider extends ChangeNotifier {
   }
 
   void receiveVideo(String lang, BuildContext context) async {
-    _fetchData(context);
+    //_fetchData(context);
     var headers = {
       'accept': 'application/json',
     };

@@ -115,19 +115,20 @@ class _VideoScreenState extends State<VideoScreen> {
                         color: Colors.blueAccent,
                       ),
                       child: Center(
-                          child: TextButton.icon(
-                        onPressed: () => getVideo(homeProvider, context),
-                        icon: const Icon(Icons.cloud_download_outlined,
-                            color: Colors.white),
-                        label: Text(
-                          appLocalization.download,
-                          style: const TextStyle(
-                            fontFamily: 'Open-Sauce-Sans',
-                            fontSize: 20.0,
-                            color: Colors.white,
+                        child: TextButton.icon(
+                          onPressed: () => getVideo(homeProvider, context),
+                          icon: const Icon(Icons.cloud_download_outlined,
+                              color: Colors.white),
+                          label: Text(
+                            appLocalization.download,
+                            style: const TextStyle(
+                              fontFamily: 'Open-Sauce-Sans',
+                              fontSize: 20.0,
+                              color: Colors.white,
+                            ),
                           ),
                         ),
-                      )),
+                      ),
                     )
                   : Center(),
               SizedBox(height: mediaquery.size.height * 0.01),
